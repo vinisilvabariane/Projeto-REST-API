@@ -13,7 +13,7 @@ Este é um projeto Java que utiliza o framework Spring para criar um banco de da
 ## Executando o Aplicativo
 ---------------------------------------
 Clone o repositório para sua máquina local:
-git clone https://github.com/seu-usuario/nome-do-repositorio.git
+git clone https://github.com/Gabriel534/Projeto-REST-API.git
 
 
 ---------------------------------------
