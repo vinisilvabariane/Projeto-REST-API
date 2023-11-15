@@ -47,6 +47,25 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 
 ---------------------------------------
+## Tabelas do Banco de Dados do Projeto
+---------------------------------------
+### Tabela Componentes
+- ID Long/Bigint
+- Nome String
+- Marca String
+- Modelo String
+- Quantidade int
+
+### Tabela Computadores
+- ID Long/Bigint
+- Nome String
+- Marca String
+- Ram String
+- Armazenamento String
+- Processador String
+
+
+---------------------------------------
 ## Configuração do Banco de Dados
 ---------------------------------------
 O sistema utiliza o Spring Data JPA para interagir com o banco de dados. As configurações de conexão podem ser ajustadas no arquivo `src/main/resources/application.properties`. Certifique-se de fornecer as credenciais e detalhes do banco de dados conforme necessário.
