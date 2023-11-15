@@ -24,17 +24,6 @@ O aplicativo será iniciado em http://localhost:8080.
 
 
 ---------------------------------------
-## Endpoints da API
----------------------------------------
-GET /componentes: Lista todos os componentes de T.I no estoque.
-GET /componentes/{id}: Obtém detalhes de um componente específico por ID.
-POST /componentes: Adiciona um novo componente ao estoque.
-PUT /componentes/{id}: Atualiza as informações de um componente existente.
-DELETE /componentes/{id}: Exclui um componente do estoque.
-Certifique-se de verificar a documentação da API para obter detalhes sobre como usar cada endpoint.
-
-
----------------------------------------
 ## Contribuição
 ---------------------------------------
 Sinta-se à vontade para contribuir para o desenvolvimento deste projeto. Abra uma issue para relatar problemas ou envie pull requests com melhorias.
