@@ -4,6 +4,12 @@ Este é um projeto Java que utiliza o framework Spring para criar um banco de da
 
 
 ---------------------------------------
+## Integrantes do Projeto
+---------------------------------------
+- Gabriel Sampaio Santos - RA: 202209519
+- Vinícius Bariane - RA: 202210220
+
+---------------------------------------
 ## Executando o Aplicativo
 ---------------------------------------
 Clone o repositório para sua máquina local:
