@@ -32,9 +32,7 @@ mvn spring-boot:run
 O aplicativo será iniciado em http://localhost:8080.
 
 
-Claro, vou criar um exemplo simples de arquivo README.md para o seu programa em Java que utiliza o Spring para criar um banco de dados para armazenar estoques de componentes de T.I. Certifique-se de adaptar as informações conforme necessário para o seu projeto específico.
 
-markdown
 Copy code
 # Sistema de Gerenciamento de Estoque de Componentes de T.I com Spring
 
