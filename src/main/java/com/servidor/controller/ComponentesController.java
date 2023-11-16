@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.servidor.model.Componentes;
 import com.servidor.repository.ComponentesRepository;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import com.servidor.error.ResourceNotFoundException;
 
 @RestController
+@Validated
 public class ComponentesController {
 	
 	@Autowired
@@ -29,46 +32,56 @@ public class ComponentesController {
 	}
 	
 	@GetMapping("/componentes/{id}")
-	public List<Optional<Componentes>> getComponente(@PathVariable Long id) {
+	public List<Optional<Componentes>> getComponente(@PathVariable @Valid Long id) throws ResourceNotFoundException{
+			
+			this.verifyIfComponentExists(id);
+		
 			List<Optional<Componentes>> list = new ArrayList<Optional<Componentes>>();
-			Optional<Componentes> cliente = componentesRepository.findById(id);
-			list.add(cliente);
+			Optional<Componentes> componente = componentesRepository.findById(id);
+			
+			list.add(componente);
+			
 			return list;
 	}
 	
 	@PostMapping("/componentes")
-	public HttpStatus adicionarComponente(@RequestBody Componentes cliente) {
+	public ResponseEntity<String> adicionarComponente(@RequestBody @Valid Componentes componente) {
+		
+		if(componente == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		componente.setId(null);
+		
 		try {
-			componentesRepository.save(cliente);}
-		catch(org.hibernate.exception.ConstraintViolationException e) {
-			return HttpStatus.CONFLICT;
+			componentesRepository.save(componente);}
+		catch(org.springframework.dao.DataIntegrityViolationException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
 		}
-		return HttpStatus.CREATED;
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/componentes/{id}")
-	public HttpStatus deletarComponente(@PathVariable Long id) {
-		try {
-			componentesRepository.deleteById(id);
-			return HttpStatus.ACCEPTED;}
-		catch(EmptyResultDataAccessException e) {
-			return HttpStatus.BAD_REQUEST;
-		}
+	public ResponseEntity<?> deletarComponente(@PathVariable @Valid Long id) throws ResourceNotFoundException {
+
+		this.verifyIfComponentExists(id);
+		
+		componentesRepository.deleteById(id);
+		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 	}
 	
-	@PutMapping("/componentes/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public HttpStatus alterarComponente(@PathVariable Long id,@RequestBody Componentes componente) {
+	@PutMapping("/componentes")
+	public ResponseEntity<?> alterarComponente(@RequestBody @Valid Componentes componente) throws ResourceNotFoundException {
 		
-		try {
-			componentesRepository.deleteById(id);}
-		catch(EmptyResultDataAccessException e) {
-			return HttpStatus.BAD_REQUEST;
-		}
+		this.verifyIfComponentExists(componente.getId());
 		
-		componente.setId(id);
 		componentesRepository.save(componente);
-		return HttpStatus.ACCEPTED;
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	
+	}
+	
+	public void verifyIfComponentExists(Long id) throws ResourceNotFoundException {
+		if(componentesRepository.findById(id).isEmpty()) {
+			throw new ResourceNotFoundException("Componente com id " +id + " não encontrado");
+		};
 	}
 	
 }
