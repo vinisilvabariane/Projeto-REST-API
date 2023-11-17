@@ -35,7 +35,7 @@ public class ComputadoresController {
 	@GetMapping("/computadores/{id}")
 	public List<Optional<Computadores>> getComputador(@PathVariable @Valid Long id) throws ResourceNotFoundException{
 		
-		this.verifyIfComponentExists(id);
+		this.verifyIfComputerExists(id);
 	
 		List<Optional<Computadores>> list = new ArrayList<Optional<Computadores>>();
 		Optional<Computadores> computador = computadoresRepository.findById(id);
@@ -46,7 +46,7 @@ public class ComputadoresController {
 }
 	
 	@PostMapping("/computadores")
-public ResponseEntity<String> adicionarComputador(@RequestBody @Valid Computadores computador) {
+	public ResponseEntity<String> adicionarComputador(@RequestBody @Valid Computadores computador) {
 		
 		if(computador == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
@@ -59,27 +59,29 @@ public ResponseEntity<String> adicionarComputador(@RequestBody @Valid Computador
 		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+
 	
 	@DeleteMapping("/computadores/{id}")
 	public ResponseEntity<?> deletarComputador(@PathVariable @Valid Long id) throws ResourceNotFoundException {
 
-		this.verifyIfComponentExists(id);
+		this.verifyIfComputerExists(id);
 		
 		computadoresRepository.deleteById(id);
 		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 	}
 	
+	
 	@PutMapping("/computadores/{id}")
-	public ResponseEntity<?> alterarComponente(@RequestBody @Valid Computadores computador) throws ResourceNotFoundException {
+	public ResponseEntity<?> alterarComputador(@RequestBody @Valid Computadores computador) throws ResourceNotFoundException {
 		
-		this.verifyIfComponentExists(computador.getId());
+		this.verifyIfComputerExists(computador.getId());
 		
 		computadoresRepository.save(computador);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	
 	}
 	
-	public void verifyIfComponentExists(Long id) throws ResourceNotFoundException {
+	public void verifyIfComputerExists(Long id) throws ResourceNotFoundException {
 		if(computadoresRepository.findById(id).isEmpty()) {
 			throw new ResourceNotFoundException("Computador com id " +id + " não encontrado");
 		};

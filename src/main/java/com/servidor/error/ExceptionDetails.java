@@ -1,54 +1,54 @@
 package com.servidor.error;
 
-public class ResourceNotFoundDetails {
+public class ExceptionDetails {
 	private String title;
 	private int status;
 	private String detail;
 	private long timestamp;
 	private String developerMessage;
 	
-	private ResourceNotFoundDetails() {
+	private ExceptionDetails() {
 			
 	}
 
-	public static final class ResourceNotFoundDetailsBuilder{
+	public static final class ExceptionDetailsBuilder{
 		
-		ResourceNotFoundDetails builder;
+		ExceptionDetails builder;
 		
-		private ResourceNotFoundDetailsBuilder() {
-			this.builder = new ResourceNotFoundDetails();
+		private ExceptionDetailsBuilder() {
+			this.builder = new ExceptionDetails();
 		}
 		
-		public static ResourceNotFoundDetailsBuilder newBuilder() {
-			return new ResourceNotFoundDetailsBuilder();
+		public static ExceptionDetailsBuilder newBuilder() {
+			return new ExceptionDetailsBuilder();
 		}
 		
-		public ResourceNotFoundDetailsBuilder title(String title) {
+		public ExceptionDetailsBuilder title(String title) {
 			this.builder.title = title;
 			return this;
 		}
 		
-		public ResourceNotFoundDetailsBuilder status(int status) {
+		public ExceptionDetailsBuilder status(int status) {
 			this.builder.status = status;
 			return this;
 		}
 		
-		public ResourceNotFoundDetailsBuilder timestamp(long timestamp) {
+		public ExceptionDetailsBuilder timestamp(long timestamp) {
 			this.builder.timestamp = timestamp;
 			return this;
 		}
 		
-		public ResourceNotFoundDetailsBuilder developerMessage(String developerMessage) {
+		public ExceptionDetailsBuilder developerMessage(String developerMessage) {
 			this.builder.developerMessage = developerMessage;
 			return this;
 		}
 		
-		public ResourceNotFoundDetailsBuilder detail(String detail) {
+		public ExceptionDetailsBuilder detail(String detail) {
 			this.builder.detail = detail;
 			return this;
 		}
 		
-		public ResourceNotFoundDetails build() {
+		public ExceptionDetails build() {
             return this.builder;
         }
 		
