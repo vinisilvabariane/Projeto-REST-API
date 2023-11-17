@@ -8,7 +8,7 @@ public class Computadores {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="nome", nullable = false)
+	@Column(name="nome", nullable = false, unique=true)
 	private String nome;
 	
 	@Column(name="marca", nullable = false)

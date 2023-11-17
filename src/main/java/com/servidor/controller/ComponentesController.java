@@ -51,11 +51,7 @@ public class ComponentesController {
 		
 		componente.setId(null);
 		
-		try {
-			componentesRepository.save(componente);}
-		catch(org.springframework.dao.DataIntegrityViolationException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
-		}
+		componentesRepository.save(componente);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

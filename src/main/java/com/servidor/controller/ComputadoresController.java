@@ -52,11 +52,7 @@ public class ComputadoresController {
 		
 		 computador.setId(null);
 		
-		try {
-			 computadoresRepository.save(computador);}
-		catch(org.springframework.dao.DataIntegrityViolationException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
-		}
+		computadoresRepository.save(computador);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -83,7 +79,7 @@ public class ComputadoresController {
 	
 	public void verifyIfComputerExists(Long id) throws ResourceNotFoundException {
 		if(computadoresRepository.findById(id).isEmpty()) {
-			throw new ResourceNotFoundException("Computador com id " +id + " não encontrado");
+			throw new ResourceNotFoundException("Computer with id " + id + " not found");
 		};
 }}
 
