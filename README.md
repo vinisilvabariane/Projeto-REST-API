@@ -26,7 +26,7 @@ cd nome-do-repositorio
 ## Compile e execute o aplicativo usando o Maven:
 ---------------------------------------
 mvn spring-boot:run
-O aplicativo será iniciado em http://localhost:8080.
+O aplicativo será iniciado em http://localhost:8080
 
 
 ---------------------------------------
