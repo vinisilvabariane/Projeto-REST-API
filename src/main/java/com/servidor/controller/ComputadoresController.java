@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -23,63 +22,55 @@ import com.servidor.repository.ComputadoresRepository;
 
 @RestController
 public class ComputadoresController {
-	
-	@Autowired
-	private ComputadoresRepository computadoresRepository;
-	
-	@GetMapping("/computadores")
-	public List<Computadores> getComputadores() {
-			return computadoresRepository.findAll();
-	}
-	
-	@GetMapping("/computadores/{id}")
-	public List<Optional<Computadores>> getComputador(@PathVariable @Valid Long id) throws ResourceNotFoundException{
-		
-		this.verifyIfComputerExists(id);
-	
-		List<Optional<Computadores>> list = new ArrayList<Optional<Computadores>>();
-		Optional<Computadores> computador = computadoresRepository.findById(id);
-		
-		list.add(computador);
-		
-		return list;
+    
+    @Autowired
+    private ComputadoresRepository computadoresRepository;
+    
+    @GetMapping("/computadores")
+    public ResponseEntity<List<Computadores>> getComputadores() {
+        return ResponseEntity.ok(computadoresRepository.findAll());
+    }
+    
+    @GetMapping("/computadores/{id}")
+    public ResponseEntity<Computadores> getComputador(@PathVariable @Valid Long id) 
+            throws ResourceNotFoundException {
+        
+        Computadores computador = computadoresRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Computer with id " + id + " not found"));
+        
+        return ResponseEntity.ok(computador);
+    }
+    
+    @PostMapping("/computadores")
+    public ResponseEntity<Computadores> adicionarComputador(@RequestBody @Valid Computadores computador) {
+        Computadores savedComputador = computadoresRepository.save(computador);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedComputador);
+    }
+
+    @DeleteMapping("/computadores/{id}")
+    public ResponseEntity<Void> deletarComputador(@PathVariable @Valid Long id) 
+            throws ResourceNotFoundException {
+        
+        verifyIfComputerExists(id);
+        computadoresRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @PutMapping("/computadores/{id}")
+    public ResponseEntity<Computadores> alterarComputador(
+            @PathVariable Long id,
+            @RequestBody @Valid Computadores computador) 
+            throws ResourceNotFoundException {
+        
+        verifyIfComputerExists(id);
+        computador.setId(id); // Ensure ID matches path
+        Computadores updatedComputador = computadoresRepository.save(computador);
+        return ResponseEntity.ok(updatedComputador);
+    }
+    
+    private void verifyIfComputerExists(Long id) throws ResourceNotFoundException {
+        if(!computadoresRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Computer with id " + id + " not found");
+        }
+    }
 }
-	
-	@PostMapping("/computadores")
-	public ResponseEntity<String> adicionarComputador(@RequestBody @Valid Computadores computador) {
-		
-		if(computador == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
-		 computador.setId(null);
-		
-		computadoresRepository.save(computador);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
-	
-	@DeleteMapping("/computadores/{id}")
-	public ResponseEntity<?> deletarComputador(@PathVariable @Valid Long id) throws ResourceNotFoundException {
-
-		this.verifyIfComputerExists(id);
-		
-		computadoresRepository.deleteById(id);
-		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-	}
-	
-	
-	@PutMapping("/computadores/{id}")
-	public ResponseEntity<?> alterarComputador(@RequestBody @Valid Computadores computador) throws ResourceNotFoundException {
-		
-		this.verifyIfComputerExists(computador.getId());
-		
-		computadoresRepository.save(computador);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	
-	}
-	
-	public void verifyIfComputerExists(Long id) throws ResourceNotFoundException {
-		if(computadoresRepository.findById(id).isEmpty()) {
-			throw new ResourceNotFoundException("Computer with id " + id + " not found");
-		};
-}}
-
